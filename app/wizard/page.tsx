@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -48,7 +47,7 @@ const page = async () => {
       </Card>
       <Separator />
 
-      <Button className="w-full" asChild>
+      <Button className="w-full" asChild >
         <Link href={"/"}>I&rsquo;m done! Take me to the dashboard</Link>
       </Button>
     </div>
