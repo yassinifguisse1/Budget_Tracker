@@ -3,7 +3,7 @@
 import { TransactionType } from "@/lib/types"
 import { Category } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
-import React from "react"
+import React, { useCallback, useEffect } from "react"
 import {
   Popover,
   PopoverTrigger,
@@ -19,13 +19,23 @@ import {
   CommandList
 } from "@/components/ui/command"
 import CreateCtegoryDialog from "./CreateCtegoryDialog"
+import { Check, ChevronsUpDown } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface Props {
     type : TransactionType
+    onChange : (value :string )=>void
 }
-const CategoryPicker = ({type}:Props) => {
+const CategoryPicker = ({type , onChange}:Props) => {
   const [open,setOpen]= React.useState(false)
   const [value , setValue] = React.useState("")
+
+  useEffect(
+    () => {
+      if(!value) return;
+      onChange(value)
+    },[onChange , value]
+  )
 
     const categoriesQuery = useQuery<Category[]>({
         queryKey: ['categories' , type],
@@ -41,6 +51,14 @@ const CategoryPicker = ({type}:Props) => {
     const selectCategory = categoriesQuery.data?.find(
       (category: Category) => category.name === value
     )
+
+    const successCallback = useCallback(
+      (category: Category) => {
+        setValue(category.name)
+        setOpen((prev) => !prev)
+      },[setValue,setOpen])
+
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -48,6 +66,7 @@ const CategoryPicker = ({type}:Props) => {
           {
           selectCategory ?(<CategoryRow category={selectCategory}/>):('Select Category')
           }
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
 
         </Button>
       </PopoverTrigger>
@@ -56,7 +75,7 @@ const CategoryPicker = ({type}:Props) => {
           e.preventDefault()
         }}>
             <CommandInput placeholder="search category... " />
-            <CreateCtegoryDialog type={type}/>
+            <CreateCtegoryDialog type={type} successCallback={successCallback}/>
             <CommandEmpty>
               <p>Category not found</p>
               <p className="text-xs text-muted-foreground">
@@ -69,11 +88,15 @@ const CategoryPicker = ({type}:Props) => {
                   categoriesQuery.data &&
                   categoriesQuery.data.map((category: Category) => (
                     <CommandItem key={category.name} 
-                    onSelect={(currentValue)=>{
-                      setValue(currentValue)
+                    onSelect={()=>{
+                      setValue(category.name)
                       setOpen((prev) => !prev)
                       }}>
                         <CategoryRow category={category} />
+                        <Check className={cn(
+                          "mr-2 w-4 h-4 opacity-0",
+                          value === category.name && "opacity-100" 
+                        )}/>
 
                     </CommandItem>
                   ))

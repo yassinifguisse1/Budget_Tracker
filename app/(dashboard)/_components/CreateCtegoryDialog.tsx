@@ -16,16 +16,17 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CreateCategory } from '../_actions/categories';
 import { Category } from '@prisma/client';
 import { toast } from 'sonner';
-import { isPagesAPIRouteMatch } from 'next/dist/server/future/route-matches/pages-api-route-match';
+import { useTheme } from 'next-themes';
 
 
 
 
 
 interface Props{
-    type:TransactionType
+    type:TransactionType,
+    successCallback:(category:Category)=>void
 }
-const CreateCtegoryDialog = ({type}:Props) => {
+const CreateCtegoryDialog = ({type , successCallback}:Props) => {
     const [open, setOpen] = React.useState(false);
     const form = useForm<CreateCategorySchemaType>({
         resolver:zodResolver(CreateCategorySchema),
@@ -34,6 +35,7 @@ const CreateCtegoryDialog = ({type}:Props) => {
         }
     })
     const queryClient = useQueryClient()
+    const theme= useTheme()
 
     const {mutate , isPending}= useMutation({
       mutationFn:CreateCategory,
@@ -43,9 +45,10 @@ const CreateCtegoryDialog = ({type}:Props) => {
           icon:"",
           type,
         })
-        toast.success(`Category ${data.name} created seccessfully`,{
+        toast.success(`Category ${data.name} created seccessfully 👏`,{
           id:"create-category"
         })
+        successCallback(data)
         await queryClient.invalidateQueries({
           queryKey: ['categories'],
         })
@@ -65,6 +68,7 @@ const CreateCtegoryDialog = ({type}:Props) => {
       mutate(value)
 
     },[mutate])
+    
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -103,7 +107,7 @@ const CreateCtegoryDialog = ({type}:Props) => {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input defaultValue={""} {...field} />
+                    <Input placeholder='category' {...field} />
                   </FormControl>
                   {form.formState.errors.name && (
                     <p className="text-red-500 text-sm">
@@ -111,7 +115,7 @@ const CreateCtegoryDialog = ({type}:Props) => {
                     </p>
                   )}
                   <DialogDescription>
-                    Transaction description (optional)
+                  This is how your category will apear in the app
                   </DialogDescription>
                   <FormMessage />
                 </FormItem>
@@ -153,6 +157,7 @@ const CreateCtegoryDialog = ({type}:Props) => {
                       <PopoverContent className="w-full">
                         <Picker
                           data={data}
+                          theme={theme.resolvedTheme}
                           onEmojiSelect={(emoji: { native: string }) => {
                             field.onChange(emoji.native);
                           }}

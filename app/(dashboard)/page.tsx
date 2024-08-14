@@ -5,6 +5,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button"
 import CreateTransactionDialig from "./_components/CreateTransactionDialig";
+import Overview from "./_components/Overview";
 
 
 const page = async () => {
@@ -33,11 +34,14 @@ const page = async () => {
           <div className="flex justify-center items-center gap-2">
             <CreateTransactionDialig 
             trigger={<Button variant={"outline"} className='border-emerald-500 bg-emerald-950 text-white hover:bg-emerald-700 hover:text-white'>New income 🤑</Button>} 
-            type={"income"}/>
+            type="income"/>
 
             <CreateTransactionDialig 
-            trigger={<Button variant={"outline"} className='border-rose-500 bg-rose-950 text-white hover:bg-rose-700 hover:text-white'>New expense 😤</Button>} 
-            type={"expense"}/>
+            trigger={
+            <Button variant={"outline"} className='border-rose-500 bg-rose-950 text-white hover:bg-rose-700 hover:text-white'>
+              New expense 😤
+              </Button>} 
+            type="expense"/>
           </div>
         </div>
       </div>
@@ -45,14 +49,7 @@ const page = async () => {
 
       {/* start secound part overveiw */}
 
-      <div className="container flex flex-wrap items-center justify-between">
-        <h3>Overview</h3>
-
-
-      </div>
-      
-      
-      
+      <Overview userSettings={userSettings}/>
     </div>
   )
 }
