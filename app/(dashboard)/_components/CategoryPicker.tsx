@@ -79,7 +79,7 @@ const CategoryPicker = ({type , onChange}:Props) => {
             <CommandEmpty>
               <p>Category not found</p>
               <p className="text-xs text-muted-foreground">
-                Tip: Create nex category
+                Tip: Create new category
               </p>
             </CommandEmpty>
             <CommandGroup>

@@ -16,10 +16,10 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-import { FormProvider, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { CreateTransactionSchema, CreateTransactionSchemaType } from "@/schema/transaction"
 import {zodResolver} from '@hookform/resolvers/zod'
-import { FormLabel,FormControl,FormField,FormItem, FormMessage } from "@/components/ui/form"
+import { FormLabel,FormControl,FormField,FormItem, FormMessage,Form } from "@/components/ui/form"
 import CategoryPicker from "./CategoryPicker"
 import { 
   Popover,
@@ -124,7 +124,7 @@ const CreateTransactionDialig = ({trigger , type} : Props) => {
           </DialogDescription>
         </DialogHeader>
 
-        <FormProvider {...form}>
+        <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
@@ -231,7 +231,7 @@ const CreateTransactionDialig = ({trigger , type} : Props) => {
               />
             </div>
           </form>
-        </FormProvider>
+        </Form>
         <DialogFooter>
           <DialogClose asChild>
             <Button

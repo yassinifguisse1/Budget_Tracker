@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage,Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { TransactionType } from '@/lib/types'
@@ -8,8 +8,8 @@ import { cn } from '@/lib/utils';
 import { CreateCategorySchema, CreateCategorySchemaType } from '@/schema/categories';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CircleOff, Loader2, PlusSquare } from 'lucide-react';
-import React, { useCallback } from 'react'
-import { Form, useForm } from 'react-hook-form';
+import React, { ReactNode, useCallback } from 'react'
+import { useForm } from 'react-hook-form';
 import Picker from '@emoji-mart/react'
 import data from '@emoji-mart/data'
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -25,8 +25,9 @@ import { useTheme } from 'next-themes';
 interface Props{
     type:TransactionType,
     successCallback:(category:Category)=>void
+    trigger?: ReactNode;
 }
-const CreateCtegoryDialog = ({type , successCallback}:Props) => {
+const CreateCtegoryDialog = ({type , successCallback, trigger}:Props) => {
     const [open, setOpen] = React.useState(false);
     const form = useForm<CreateCategorySchemaType>({
         resolver:zodResolver(CreateCategorySchema),
@@ -72,13 +73,17 @@ const CreateCtegoryDialog = ({type , successCallback}:Props) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant={"ghost"}
-          className="flex border-separate items-center justify-start rounded-none border-b px-3 py-3 text-muted-foreground"
-        >
-          <PlusSquare className="mr-2 h-4 w-4" />
-          create new
-        </Button>
+        {trigger ? (
+          trigger
+        ) : (
+          <Button
+            variant={"ghost"}
+            className="flex border-separate items-center justify-start rounded-none border-b px-3 py-3 text-muted-foreground"
+          >
+            <PlusSquare className="mr-2 h-4 w-4" />
+            create new
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="w-full">
         <DialogHeader>
@@ -107,7 +112,7 @@ const CreateCtegoryDialog = ({type , successCallback}:Props) => {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder='category' {...field} />
+                    <Input placeholder="category" {...field} />
                   </FormControl>
                   {form.formState.errors.name && (
                     <p className="text-red-500 text-sm">
@@ -115,7 +120,7 @@ const CreateCtegoryDialog = ({type , successCallback}:Props) => {
                     </p>
                   )}
                   <DialogDescription>
-                  This is how your category will apear in the app
+                    This is how your category will apear in the app
                   </DialogDescription>
                   <FormMessage />
                 </FormItem>

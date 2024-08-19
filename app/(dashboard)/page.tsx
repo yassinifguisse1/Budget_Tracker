@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button"
 import CreateTransactionDialig from "./_components/CreateTransactionDialig";
 import Overview from "./_components/Overview";
+import History from './_components/History'
 
 
 const page = async () => {
@@ -50,6 +51,8 @@ const page = async () => {
       {/* start secound part overveiw */}
 
       <Overview userSettings={userSettings}/>
+      <History userSettings={userSettings}/>
+
     </div>
   )
 }
