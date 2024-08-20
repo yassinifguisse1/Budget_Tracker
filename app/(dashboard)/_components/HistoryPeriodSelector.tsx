@@ -39,7 +39,7 @@ const HistoryPeriodSelector = ({
                 <YearSelector
                 period={period}
                 setPeriod={setPeriod}
-                years={histoPeriods.data ||[]}
+                years={histoPeriods.data || []}
                 />
             </SkeletonWrapper>
             <SkeletonWrapper isLoading={histoPeriods.isFetching} fullWith={false}>
@@ -81,12 +81,11 @@ function YearSelector({
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {years
-            .filter((year): year is number => typeof year === "number")
-            .map((year) => (
-              <SelectItem key={year} value={year.toString()}>
-                {year}
-              </SelectItem>
+          {years.map((year) => (
+            <SelectItem key={year as number} value={(year as number).toString()}>
+                {year as number}
+            </SelectItem>
+        
             ))}
         </SelectContent>
       </Select>
