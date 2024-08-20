@@ -3,7 +3,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { GetFormmatterForCurrency } from '@/lib/helpers'
 import { UserSettings } from '@prisma/client'
-import { startOfMonth } from 'date-fns'
 import { Badge } from "@/components/ui/badge"
 import React, { useCallback, useMemo, useState } from 'react'
 import HistoryPeriodSelector from './HistoryPeriodSelector'
@@ -51,7 +50,7 @@ const History = ({userSettings}:Props) => {
   return (
     <>
     <div className="container">
-        <h2 className='text-3xl font-bold'>History</h2>
+        <h2 className='text-3xl font-bold '>History</h2>
         <Card className="col-span-12 mt-2 w-full">
             <CardHeader>
                 <CardTitle className='grid grid-flow-row justify-between gap-2 md:grid-flow-col'>
