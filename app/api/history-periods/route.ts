@@ -33,7 +33,7 @@ async function getHistoryPeriods(userId:string){
     const years = result.map((el)=>el.year)
     if(years.length === 0){
         // return the currnet year
-        return [new Date().getFullYear]
+        return [new Date().getFullYear()]
 
     }
     return years;
