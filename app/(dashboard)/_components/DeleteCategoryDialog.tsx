@@ -33,7 +33,7 @@ const DeleteCategoryDialog = ({trigger , category}: Props) => {
          
     })
   return (
-    <AlertDialog>
+    <AlertDialog >
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
