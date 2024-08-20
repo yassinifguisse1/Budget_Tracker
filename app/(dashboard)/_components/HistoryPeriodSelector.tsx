@@ -68,33 +68,29 @@ function YearSelector({
 }){
     
     return (
-        <Select
+      <Select
         value={period.year.toString()}
-        onValueChange={(value)=>{
-            setPeriod({
-                month:period.month,
-                year:parseInt(value)
-            })
+        onValueChange={(value) => {
+          setPeriod({
+            month: period.month,
+            year: parseInt(value),
+          });
         }}
-        >
-            <SelectTrigger className='w-[180px]'>
-                <SelectValue/>
-            </SelectTrigger>
-            <SelectContent>
-                {
-                    years.map((year) => (
-                        <SelectItem key={year} value={year.toString()}>
-                            {year}
-                        </SelectItem>
-                    ))
-                }
-                
-            </SelectContent>
-
-        </Select>
-
-
-    )
+      >
+        <SelectTrigger className="w-[180px]">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {years
+            .filter((year): year is number => typeof year === "number")
+            .map((year) => (
+              <SelectItem key={year} value={year.toString()}>
+                {year}
+              </SelectItem>
+            ))}
+        </SelectContent>
+      </Select>
+    );
 }
 
 function MonthSelector({
